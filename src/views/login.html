@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    <a href="/">Home</a>
+    <a href="/register">Register</a>
+    <h1 id="notif"></h1>
+    <form id="login"> 
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email"> <br />
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password"> <br />
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById("login").addEventListener("submit", async function (even) {
+            even.preventDefault()
+            let data = {}
+            data.email = document.getElementById("email").value
+            data.password = document.getElementById("password").value
+
+            try {
+                const response = await fetch("login/auth", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Gagal memproses permintaan');
+                }
+
+                const responseData = await response.json();
+                document.getElementById("notif").innerHTML = responseData.data
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+            }
+
+        })
+    </script>
+
+</body>
+</html>

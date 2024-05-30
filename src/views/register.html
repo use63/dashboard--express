@@ -1,0 +1,61 @@
+<!-- register.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <a href="/login">Login</a>
+    <h1 id="notif"></h1>
+    <form id="regist">
+        <label for="name">Name</label>
+        <input id="name" type="text" name="name" required> <br>
+
+        <label for="email">email</label>
+        <input id="email" type="email" name="email" required> <br>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required> <br>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        document.getElementById("regist").addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+            let data = {}
+            data.name = document.getElementById("name").value
+            data.email = document.getElementById("email").value
+            data.password = document.getElementById("password").value
+
+            try {
+                const response = await fetch("/register/process-registration", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Gagal memproses permintaan');
+                }
+                
+                const responseData = await response.json();
+                document.getElementById("notif").innerHTML=responseData.data
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+            }
+        });
+    </script>
+</body>
+
+</html>
