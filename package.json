@@ -5,8 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/app",
-    "tesdb": "node src/tesdb"
+    "dev": "nodemon src/app"
   },
   "author": "Use63",
   "license": "MIT",
